@@ -2,8 +2,9 @@ const questions = [
     { q: "What is 2 + 7?", a: "9" },
     { q: "What is 6 + 14?", a: "20" },
     { q: "What is 5 + 3?", a: "8" },
-    { q: "What is 10 + 6?", a: "16" },
-    { q: "What is 4 + 11?", a: "15" }
+    { q: "What is 7 + 15?", a: "22" },
+    { q: "On which Planet are we on?", a: "Earth" },
+    { q: "What year is it?", a: "2025" }
 ];
 
 let correctAnswer = "";
