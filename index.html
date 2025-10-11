@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LiteScriptz</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="welcome">
+        <div>
+            <h1>Welcome to LiteScriptz</h1>
+            <div class="info-box">
+                <h2>What is LiteScriptz?</h2>
+                <ul>
+                    <li>Download the latest Roblox scripts for free</li>
+                    <li>Safe, regularly updated, and easy to use</li>
+                    <li>
+                        Join our 
+                        <span id="discord-link" class="info-link" style="cursor:pointer;">Discord</span>
+                        for updates and support
+                    </li>
+                </ul>
+                <p class="site-note">You’re on the official LiteScriptz website.</p>
+            </div>
+        </div>
+    </div>
+    <!-- Modal for verification -->
+    <div id="verifyModal" class="modal-overlay" style="display:none;">
+        <div class="modal-content">
+            <span id="closeModal" class="close-btn">&times;</span>
+            <h2>Verify</h2>
+            <p id="mathQuestion"></p>
+            <input type="text" id="userAnswer" placeholder="Your answer">
+            <button id="submitAnswer">Verify</button>
+            <div id="verificationMessage" style="margin-top:10px;"></div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
