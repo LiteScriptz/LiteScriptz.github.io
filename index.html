@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LiteScriptz LifeSteal SMP</title>
 <style>
-  /* Reset */
   * {margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', sans-serif;}
   body {background:#111; color:#f5f5f5; line-height:1.6; overflow-x:hidden; position:relative;}
   a {color:#ff6b81; text-decoration:none;}
@@ -18,69 +17,72 @@
   @keyframes fall {0% {transform: translateY(0) rotate(0deg);} 100% {transform: translateY(100vh) rotate(360deg);}}
   @keyframes float {0% {transform: translateY(0);} 100% {transform: translateY(100vh);}}
 
-  header {background:#111; padding:20px; text-align:center; position: sticky; top:0; z-index:1000;}
-  header h1 {color:#ff6b81; font-size:2em;}
+  header {background:#111; padding:15px; text-align:center; position: sticky; top:0; z-index:1000;}
+  header h1 {color:#ff6b81; font-size:1.8em;}
+  
+  /* Responsive nav */
   nav {margin-top:10px;}
-  nav a {margin:0 15px; font-weight:bold; transition: color 0.3s;}
-  nav a:hover {color:#ff4966;}
+  .nav-links {display:flex; justify-content:center; flex-wrap:wrap; gap:10px;}
+  .nav-links a {padding:5px 10px; font-weight:bold; transition: color 0.3s;}
+  .nav-links a:hover {color:#ff4966;}
 
-  section {padding:40px 20px; max-width:1200px; margin:auto; opacity:0; transform: translateY(20px); transition: all 0.8s ease; position:relative;}
+  section {padding:30px 15px; max-width:1200px; margin:auto; opacity:0; transform: translateY(20px); transition: all 0.8s ease; position:relative;}
   section.active {opacity:1; transform:translateY(0);}
   h2 {color:#ff6b81; margin-bottom:20px; text-align:center; position:relative;}
 
-  table {width:100%; border-collapse: collapse; margin-bottom:30px; transition: all 0.3s;}
-  table th, table td {border:1px solid #444; padding:12px; text-align:center;}
+  table {width:100%; border-collapse: collapse; margin-bottom:20px; transition: all 0.3s; overflow-x:auto; display:block;}
+  table th, table td {border:1px solid #444; padding:10px; text-align:center; white-space:nowrap;}
   table th {background:#222;}
   table td {background:#111;}
   table tr:hover td {background:#2a2a2a; transform:scale(1.02); transition:0.3s;}
 
-  .btn {display:inline-block; background:#ff6b81; color:#fff; padding:12px 25px; margin-top:10px; border-radius:8px; font-weight:bold; transition:all 0.3s;}
+  .btn {display:inline-block; background:#ff6b81; color:#fff; padding:10px 20px; margin-top:10px; border-radius:8px; font-weight:bold; transition:all 0.3s;}
   .btn:hover {background:#ff4966; transform:scale(1.05);}
 
-  footer {background:#111; padding:20px; text-align:center; margin-top:40px;}
-  .section-box {background:#111; padding:25px; border-radius:12px; margin-bottom:20px; transition: transform 0.3s; box-shadow: 0 0 20px rgba(255,107,129,0.3);}
+  footer {background:#111; padding:20px; text-align:center; margin-top:20px;}
+  .section-box {background:#111; padding:20px; border-radius:12px; margin-bottom:20px; transition: transform 0.3s; box-shadow: 0 0 15px rgba(255,107,129,0.3);}
   .section-box:hover {transform:scale(1.02);}
 
-  /* Collapsible */
-  .collapsible {background:#222; cursor:pointer; padding:15px; width:100%; border:none; text-align:left; outline:none; font-size:16px; border-radius:8px; margin-bottom:10px; transition: background 0.3s;}
+  .collapsible {background:#222; cursor:pointer; padding:12px; width:100%; border:none; text-align:left; outline:none; font-size:15px; border-radius:8px; margin-bottom:8px; transition: background 0.3s;}
   .collapsible:hover {background:#333;}
-  .content {padding:0 15px; display:none; overflow:hidden; background-color:#111; border-radius:8px; margin-bottom:15px;}
+  .content {padding:0 12px; display:none; overflow:hidden; background-color:#111; border-radius:8px; margin-bottom:12px;}
 
-  /* LifeSteal demo */
-  .demo {background:#111; border-radius:12px; padding:20px; text-align:center; margin-bottom:20px; box-shadow: 0 0 20px rgba(255,107,129,0.3);}
-  .heart-bar {font-size:2em; color:#ff4d4d; margin-bottom:10px; transition: transform 0.3s;}
+  .demo {background:#111; border-radius:12px; padding:15px; text-align:center; margin-bottom:20px; box-shadow: 0 0 15px rgba(255,107,129,0.3);}
+  .heart-bar {font-size:1.8em; color:#ff4d4d; margin-bottom:10px; transition: transform 0.3s;}
   .heart-bar.grow {transform: scale(1.3);}
-  .border-bar {height:20px; background:#222; border-radius:10px; overflow:hidden; margin-bottom:10px;}
+  .border-bar {height:18px; background:#222; border-radius:10px; overflow:hidden; margin-bottom:10px;}
   .border-progress {height:100%; background:#ff6b81; width:100%; transition: width 1s;}
 
-  .timer {color:#ff6b81; font-weight:bold; font-size:1.2em; margin-bottom:15px;}
+  .timer {color:#ff6b81; font-weight:bold; font-size:1.1em; margin-bottom:10px;}
 
   @media(max-width:768px){
-    table, th, td {font-size:14px;}
-    nav a {display:block;margin:10px 0;}
+    header h1 {font-size:1.5em;}
+    .btn {padding:8px 16px; font-size:14px;}
+    table th, table td {font-size:12px; padding:6px;}
+    .heart-bar {font-size:1.5em;}
   }
 </style>
 </head>
 <body>
 
-<!-- Snow and heart particles -->
+<!-- Snow and hearts -->
 <script>
-for(let i=0;i<60;i++){
+for(let i=0;i<40;i++){
   let snow = document.createElement('div');
   snow.className='particle';
   snow.style.left = Math.random()*100+'vw';
-  snow.style.fontSize = (Math.random()*12+10)+'px';
-  snow.style.animation = `fall ${Math.random()*8+5}s linear infinite`;
+  snow.style.fontSize = (Math.random()*10+8)+'px';
+  snow.style.animation = `fall ${Math.random()*6+4}s linear infinite`;
   snow.style.opacity = Math.random();
   snow.innerHTML='❄';
   document.body.appendChild(snow);
 }
-for(let i=0;i<30;i++){
+for(let i=0;i<20;i++){
   let heart = document.createElement('div');
   heart.className='heart-particle';
   heart.style.left = Math.random()*100+'vw';
-  heart.style.fontSize = (Math.random()*16+12)+'px';
-  heart.style.animation = `float ${Math.random()*6+4}s linear infinite`;
+  heart.style.fontSize = (Math.random()*14+10)+'px';
+  heart.style.animation = `float ${Math.random()*5+3}s linear infinite`;
   heart.style.opacity = Math.random();
   heart.innerHTML='❤️';
   document.body.appendChild(heart);
@@ -90,12 +92,14 @@ for(let i=0;i<30;i++){
 <header>
   <h1>LiteScriptz LifeSteal SMP</h1>
   <nav>
-    <a href="#server-info">Server Info</a>
-    <a href="#ranks">Ranks</a>
-    <a href="#crates">Crates</a>
-    <a href="#second-life">Second Life</a>
-    <a href="#store">Store</a>
-    <a href="#discord">Discord</a>
+    <div class="nav-links">
+      <a href="#server-info">Server Info</a>
+      <a href="#ranks">Ranks</a>
+      <a href="#crates">Crates</a>
+      <a href="#second-life">Second Life</a>
+      <a href="#store">Store</a>
+      <a href="#discord">Discord</a>
+    </div>
   </nav>
 </header>
 
@@ -110,7 +114,7 @@ for(let i=0;i<30;i++){
     <p><strong>PvP:</strong> Allowed | Safe zone in spawn</p>
     <p><strong>Admin Rules:</strong> No hacking / x-ray | No combat logging | Fair play enforced</p>
 
-    <!-- LifeSteal demo with border shrink countdown -->
+    <!-- LifeSteal demo with timer -->
     <div class="demo">
       <div class="timer" id="seasonTimer">Next Border Shrink in: 7d 0h 0m</div>
       <div class="heart-bar" id="hearts">❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️</div>
@@ -139,7 +143,7 @@ for(let i=0;i<30;i++){
 </section>
 
 <section id="crates">
-  <h2>Crates & Pricing</h2>
+  <h2>Crates & Combos</h2>
   <button class="collapsible">View Crates</button>
   <div class="content">
     <table>
@@ -157,16 +161,8 @@ for(let i=0;i<30;i++){
       <table>
         <tr><th>Crate</th><th>Quantity</th><th>Bulk Price</th></tr>
         <tr><td>Rare Key</td><td>5</td><td>€0.85</td></tr>
-        <tr><td>Rare Key</td><td>10</td><td>€1.70</td></tr>
-        <tr><td>Rare Key</td><td>20</td><td>€3.30</td></tr>
         <tr><td>Epic Key</td><td>5</td><td>€1.70</td></tr>
-        <tr><td>Epic Key</td><td>10</td><td>€3.30</td></tr>
         <tr><td>Heart Key</td><td>3</td><td>€2.50</td></tr>
-        <tr><td>Heart Key</td><td>5</td><td>€4.00</td></tr>
-        <tr><td>Cherry Key</td><td>3</td><td>€3.75</td></tr>
-        <tr><td>Cherry Key</td><td>5</td><td>€6.00</td></tr>
-        <tr><td>Spawner Key</td><td>3</td><td>€5.00</td></tr>
-        <tr><td>Spawner Key</td><td>5</td><td>€8.00</td></tr>
       </table>
     </div>
   </div>
@@ -207,8 +203,7 @@ for(let i=0;i<30;i++){
 
 <script>
   // Collapsible
-  const collapsibles = document.querySelectorAll('.collapsible');
-  collapsibles.forEach(button => {
+  document.querySelectorAll('.collapsible').forEach(button => {
     button.addEventListener('click', () => {
       button.classList.toggle('active');
       const content = button.nextElementSibling;
@@ -244,7 +239,6 @@ for(let i=0;i<30;i++){
   function stealHeart(){ if(hearts<maxHearts){ hearts++; updateHearts(); } }
   function loseHeart(){ if(hearts>0){ hearts--; updateHearts(); } }
   function shrinkBorder(){ if(border>10){ border-=10; borderEl.style.width=border+'%'; } }
-
   updateHearts();
 
   // Timer countdown
@@ -258,6 +252,5 @@ for(let i=0;i<30;i++){
   }
   setInterval(updateTimer,1000);
 </script>
-
 </body>
 </html>
