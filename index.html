@@ -1,40 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>LiteScriptz</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LiteScriptz LifeSteal SMP</title>
+<style>
+    /* Reset */
+    * {margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif;}
+    body {background: #1a1a1a; color: #f5f5f5; line-height: 1.6;}
+    a {color: #ff6b81; text-decoration: none;}
+    a:hover {text-decoration: underline;}
+    header {background: #111; padding: 20px; text-align: center;}
+    header h1 {color: #ff6b81;}
+    nav {margin-top: 10px;}
+    nav a {margin: 0 15px; font-weight: bold;}
+    section {padding: 40px 20px; max-width: 1200px; margin: auto;}
+    h2 {color: #ff6b81; margin-bottom: 20px;}
+    table {width: 100%; border-collapse: collapse; margin-bottom: 30px;}
+    table th, table td {border: 1px solid #444; padding: 10px; text-align: center;}
+    table th {background: #222;}
+    table td {background: #111;}
+    .btn {display: inline-block; background: #ff6b81; color: #fff; padding: 10px 20px; margin-top: 10px; border-radius: 5px;}
+    .btn:hover {background: #ff4966;}
+    footer {background: #111; padding: 20px; text-align: center; margin-top: 40px;}
+    .section-box {background:#111;padding:20px;border-radius:10px;margin-bottom:20px;}
+    @media(max-width:768px){
+        table, th, td {font-size:14px;}
+        nav a {display:block;margin:10px 0;}
+    }
+</style>
 </head>
 <body>
-    <div class="welcome">
-        <div>
-            <h1>Welcome to LiteScriptz</h1>
-            <div class="info-box">
-                <h2>What is LiteScriptz?</h2>
-                <ul>
-                    <li>Download the latest Roblox scripts for free</li>
-                    <li>Safe, regularly updated, and easy to use</li>
-                    <li>
-                        Join our 
-                        <span id="discord-link" class="info-link" style="cursor:pointer;">Discord</span>
-                        for updates and support
-                    </li>
-                </ul>
-                <p class="site-note">You’re on the official LiteScriptz website.</p>
-            </div>
-        </div>
+
+<header>
+    <h1>LiteScriptz LifeSteal SMP</h1>
+    <nav>
+        <a href="#server-info">Server Info</a>
+        <a href="#ranks">Ranks</a>
+        <a href="#crates">Crates</a>
+        <a href="#second-life">Second Life</a>
+        <a href="#store">Store</a>
+        <a href="#discord">Discord</a>
+    </nav>
+</header>
+
+<section id="server-info">
+    <h2>Server Information</h2>
+    <div class="section-box">
+        <p><strong>Gamemode:</strong> LifeSteal SMP</p>
+        <p><strong>World Border:</strong> Start 50,000 × 50,000, shrinks 5,000 blocks/week, minimum 10,000 × 10,000</p>
+        <p><strong>Hearts:</strong> Max 20 | Kill player → steal +1 heart | Death → lose heart</p>
+        <p><strong>Death Mechanics:</strong> 0 hearts → spectator until next season or Second Life purchase</p>
+        <p><strong>Seasons:</strong> 8 weeks recommended, seasonal resets</p>
+        <p><strong>PvP:</strong> Allowed | Safe zone in spawn</p>
+        <p><strong>Admin Rules:</strong> No hacking / x-ray | No combat logging | Fair play enforced</p>
     </div>
-    <!-- Modal for verification -->
-    <div id="verifyModal" class="modal-overlay" style="display:none;">
-        <div class="modal-content">
-            <span id="closeModal" class="close-btn">&times;</span>
-            <h2>Verify</h2>
-            <p id="mathQuestion"></p>
-            <input type="text" id="userAnswer" placeholder="Your answer">
-            <button id="submitAnswer">Verify</button>
-            <div id="verificationMessage" style="margin-top:10px;"></div>
-        </div>
+</section>
+
+<section id="ranks">
+    <h2>Ranks & Prices</h2>
+    <table>
+        <tr><th>Rank</th><th>Price</th><th>Perks</th></tr>
+        <tr><td>VIP</td><td>€1.99</td><td>1 extra heart (1/season), Colored chat name, 1 Epic crate/season, 1 extra home</td></tr>
+        <tr><td>Ultra</td><td>€4.99</td><td>All VIP perks, 2 Epic crates/season, Increased Spawner Key chance, Minor particle effects, 2 extra homes</td></tr>
+        <tr><td>Cherry</td><td>€8.99</td><td>All Ultra perks, Heart Key (1/season), Exclusive Cherry crate, Fancy particle effects, VIP Discord role</td></tr>
+        <tr><td>Cherry+</td><td>€9.99/month</td><td>All Cherry perks, 2 Heart Keys OR Second Life/season, Extra Spawner Keys, Exclusive cosmetic pets/effects, Cherry+ Discord role</td></tr>
+    </table>
+</section>
+
+<section id="crates">
+    <h2>Crates & Pricing</h2>
+    <table>
+        <tr><th>Crate</th><th>Price</th><th>Notes</th></tr>
+        <tr><td>Rare Key</td><td>€0.19</td><td>Starter cosmetics</td></tr>
+        <tr><td>Epic Key</td><td>€0.39</td><td>Mid-tier rewards</td></tr>
+        <tr><td>Heart Key</td><td>€0.99</td><td>+1 heart, 1 per season</td></tr>
+        <tr><td>Cherry Key</td><td>€1.39</td><td>Seasonal cosmetic items</td></tr>
+        <tr><td>Spawner Key</td><td>€1.79</td><td>Spawners / resources / pets</td></tr>
+        <tr><td>Ad Key</td><td>€0.00</td><td>Free via quest / CPA</td></tr>
+    </table>
+
+    <h3>Bulk / Combo Pricing</h3>
+    <table>
+        <tr><th>Crate</th><th>Quantity</th><th>Bulk Price</th></tr>
+        <tr><td>Rare Key</td><td>5</td><td>€0.85</td></tr>
+        <tr><td>Rare Key</td><td>10</td><td>€1.70</td></tr>
+        <tr><td>Rare Key</td><td>20</td><td>€3.30</td></tr>
+        <tr><td>Epic Key</td><td>5</td><td>€1.70</td></tr>
+        <tr><td>Epic Key</td><td>10</td><td>€3.30</td></tr>
+        <tr><td>Heart Key</td><td>3</td><td>€2.50</td></tr>
+        <tr><td>Heart Key</td><td>5</td><td>€4.00</td></tr>
+        <tr><td>Cherry Key</td><td>3</td><td>€3.75</td></tr>
+        <tr><td>Cherry Key</td><td>5</td><td>€6.00</td></tr>
+        <tr><td>Spawner Key</td><td>3</td><td>€5.00</td></tr>
+        <tr><td>Spawner Key</td><td>5</td><td>€8.00</td></tr>
+    </table>
+</section>
+
+<section id="second-life">
+    <h2>Second Life</h2>
+    <div class="section-box">
+        <p><strong>Price:</strong> €2.99</p>
+        <p><strong>Reward:</strong> 10 hearts, unban from spectator mode</p>
+        <p><strong>Limit:</strong> 1 per season per player</p>
+        <p><strong>Optional:</strong> Cherry+ subscribers can get 1 free Second Life per month</p>
     </div>
-    <script src="script.js"></script>
+</section>
+
+<section id="store">
+    <h2>Store</h2>
+    <div class="section-box">
+        <p>Purchase Ranks, Crates, and Second Life here:</p>
+        <a href="#" class="btn">Visit Store</a>
+    </div>
+</section>
+
+<section id="discord">
+    <h2>Join Our Discord</h2>
+    <div class="section-box">
+        <p>Chat with players, get updates, and participate in events:</p>
+        <a href="#" class="btn">Join Discord</a>
+    </div>
+</section>
+
+<footer>
+    <p>© 2026 LiteScriptz LifeSteal SMP. All Rights Reserved.</p>
+</footer>
+
 </body>
 </html>
