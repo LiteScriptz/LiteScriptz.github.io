@@ -5,83 +5,156 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LiteScriptz LifeSteal SMP</title>
 <style>
-    /* Reset */
-    * {margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif;}
-    body {background: #1a1a1a; color: #f5f5f5; line-height: 1.6;}
-    a {color: #ff6b81; text-decoration: none;}
-    a:hover {text-decoration: underline;}
-    header {background: #111; padding: 20px; text-align: center;}
-    header h1 {color: #ff6b81;}
-    nav {margin-top: 10px;}
-    nav a {margin: 0 15px; font-weight: bold;}
-    section {padding: 40px 20px; max-width: 1200px; margin: auto;}
-    h2 {color: #ff6b81; margin-bottom: 20px;}
-    table {width: 100%; border-collapse: collapse; margin-bottom: 30px;}
-    table th, table td {border: 1px solid #444; padding: 10px; text-align: center;}
-    table th {background: #222;}
-    table td {background: #111;}
-    .btn {display: inline-block; background: #ff6b81; color: #fff; padding: 10px 20px; margin-top: 10px; border-radius: 5px;}
-    .btn:hover {background: #ff4966;}
-    footer {background: #111; padding: 20px; text-align: center; margin-top: 40px;}
-    .section-box {background:#111;padding:20px;border-radius:10px;margin-bottom:20px;}
-    @media(max-width:768px){
-        table, th, td {font-size:14px;}
-        nav a {display:block;margin:10px 0;}
-    }
+  /* Reset */
+  * {margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', sans-serif;}
+  body {background:#111; color:#f5f5f5; line-height:1.6; overflow-x:hidden; position:relative;}
+  a {color:#ff6b81; text-decoration:none;}
+  a:hover {text-decoration:underline;}
+
+  /* Snow and hearts */
+  .particle, .heart-particle {position:fixed; top:-10px; user-select:none; pointer-events:none; z-index:10000;}
+  .particle {color:#fff;}
+  .heart-particle {color:#ff4d4d;}
+  @keyframes fall {0% {transform: translateY(0) rotate(0deg);} 100% {transform: translateY(100vh) rotate(360deg);}}
+  @keyframes float {0% {transform: translateY(0);} 100% {transform: translateY(100vh);}}
+
+  header {background:#111; padding:20px; text-align:center; position: sticky; top:0; z-index:1000;}
+  header h1 {color:#ff6b81; font-size:2em;}
+  nav {margin-top:10px;}
+  nav a {margin:0 15px; font-weight:bold; transition: color 0.3s;}
+  nav a:hover {color:#ff4966;}
+
+  section {padding:40px 20px; max-width:1200px; margin:auto; opacity:0; transform: translateY(20px); transition: all 0.8s ease; position:relative;}
+  section.active {opacity:1; transform:translateY(0);}
+  h2 {color:#ff6b81; margin-bottom:20px; text-align:center; position:relative;}
+
+  table {width:100%; border-collapse: collapse; margin-bottom:30px; transition: all 0.3s;}
+  table th, table td {border:1px solid #444; padding:12px; text-align:center;}
+  table th {background:#222;}
+  table td {background:#111;}
+  table tr:hover td {background:#2a2a2a; transform:scale(1.02); transition:0.3s;}
+
+  .btn {display:inline-block; background:#ff6b81; color:#fff; padding:12px 25px; margin-top:10px; border-radius:8px; font-weight:bold; transition:all 0.3s;}
+  .btn:hover {background:#ff4966; transform:scale(1.05);}
+
+  footer {background:#111; padding:20px; text-align:center; margin-top:40px;}
+  .section-box {background:#111; padding:25px; border-radius:12px; margin-bottom:20px; transition: transform 0.3s; box-shadow: 0 0 20px rgba(255,107,129,0.3);}
+  .section-box:hover {transform:scale(1.02);}
+
+  /* Collapsible */
+  .collapsible {background:#222; cursor:pointer; padding:15px; width:100%; border:none; text-align:left; outline:none; font-size:16px; border-radius:8px; margin-bottom:10px; transition: background 0.3s;}
+  .collapsible:hover {background:#333;}
+  .content {padding:0 15px; display:none; overflow:hidden; background-color:#111; border-radius:8px; margin-bottom:15px;}
+
+  /* LifeSteal demo */
+  .demo {background:#111; border-radius:12px; padding:20px; text-align:center; margin-bottom:20px; box-shadow: 0 0 20px rgba(255,107,129,0.3);}
+  .heart-bar {font-size:2em; color:#ff4d4d; margin-bottom:10px; transition: transform 0.3s;}
+  .heart-bar.grow {transform: scale(1.3);}
+  .border-bar {height:20px; background:#222; border-radius:10px; overflow:hidden; margin-bottom:10px;}
+  .border-progress {height:100%; background:#ff6b81; width:100%; transition: width 1s;}
+
+  .timer {color:#ff6b81; font-weight:bold; font-size:1.2em; margin-bottom:15px;}
+
+  @media(max-width:768px){
+    table, th, td {font-size:14px;}
+    nav a {display:block;margin:10px 0;}
+  }
 </style>
 </head>
 <body>
 
+<!-- Snow and heart particles -->
+<script>
+for(let i=0;i<60;i++){
+  let snow = document.createElement('div');
+  snow.className='particle';
+  snow.style.left = Math.random()*100+'vw';
+  snow.style.fontSize = (Math.random()*12+10)+'px';
+  snow.style.animation = `fall ${Math.random()*8+5}s linear infinite`;
+  snow.style.opacity = Math.random();
+  snow.innerHTML='❄';
+  document.body.appendChild(snow);
+}
+for(let i=0;i<30;i++){
+  let heart = document.createElement('div');
+  heart.className='heart-particle';
+  heart.style.left = Math.random()*100+'vw';
+  heart.style.fontSize = (Math.random()*16+12)+'px';
+  heart.style.animation = `float ${Math.random()*6+4}s linear infinite`;
+  heart.style.opacity = Math.random();
+  heart.innerHTML='❤️';
+  document.body.appendChild(heart);
+}
+</script>
+
 <header>
-    <h1>LiteScriptz LifeSteal SMP</h1>
-    <nav>
-        <a href="#server-info">Server Info</a>
-        <a href="#ranks">Ranks</a>
-        <a href="#crates">Crates</a>
-        <a href="#second-life">Second Life</a>
-        <a href="#store">Store</a>
-        <a href="#discord">Discord</a>
-    </nav>
+  <h1>LiteScriptz LifeSteal SMP</h1>
+  <nav>
+    <a href="#server-info">Server Info</a>
+    <a href="#ranks">Ranks</a>
+    <a href="#crates">Crates</a>
+    <a href="#second-life">Second Life</a>
+    <a href="#store">Store</a>
+    <a href="#discord">Discord</a>
+  </nav>
 </header>
 
 <section id="server-info">
-    <h2>Server Information</h2>
-    <div class="section-box">
-        <p><strong>Gamemode:</strong> LifeSteal SMP</p>
-        <p><strong>World Border:</strong> Start 50,000 × 50,000, shrinks 5,000 blocks/week, minimum 10,000 × 10,000</p>
-        <p><strong>Hearts:</strong> Max 20 | Kill player → steal +1 heart | Death → lose heart</p>
-        <p><strong>Death Mechanics:</strong> 0 hearts → spectator until next season or Second Life purchase</p>
-        <p><strong>Seasons:</strong> 8 weeks recommended, seasonal resets</p>
-        <p><strong>PvP:</strong> Allowed | Safe zone in spawn</p>
-        <p><strong>Admin Rules:</strong> No hacking / x-ray | No combat logging | Fair play enforced</p>
+  <h2>Server Information</h2>
+  <div class="section-box">
+    <p><strong>Gamemode:</strong> LifeSteal SMP</p>
+    <p><strong>World Border:</strong> Start 50,000 × 50,000, shrinks 5,000 blocks/week, minimum 10,000 × 10,000</p>
+    <p><strong>Hearts:</strong> Max 20 | Kill player → steal +1 heart | Death → lose heart</p>
+    <p><strong>Death Mechanics:</strong> 0 hearts → spectator until next season or Second Life purchase</p>
+    <p><strong>Seasons:</strong> 8 weeks recommended, seasonal resets</p>
+    <p><strong>PvP:</strong> Allowed | Safe zone in spawn</p>
+    <p><strong>Admin Rules:</strong> No hacking / x-ray | No combat logging | Fair play enforced</p>
+
+    <!-- LifeSteal demo with border shrink countdown -->
+    <div class="demo">
+      <div class="timer" id="seasonTimer">Next Border Shrink in: 7d 0h 0m</div>
+      <div class="heart-bar" id="hearts">❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️</div>
+      <div class="border-bar">
+        <div class="border-progress" id="borderBar"></div>
+      </div>
+      <button class="btn" onclick="stealHeart()">Steal Heart</button>
+      <button class="btn" onclick="loseHeart()">Lose Heart</button>
+      <button class="btn" onclick="shrinkBorder()">Shrink Border</button>
     </div>
+  </div>
 </section>
 
 <section id="ranks">
-    <h2>Ranks & Prices</h2>
+  <h2>Ranks & Prices</h2>
+  <button class="collapsible">View Ranks</button>
+  <div class="content">
     <table>
-        <tr><th>Rank</th><th>Price</th><th>Perks</th></tr>
-        <tr><td>VIP</td><td>€1.99</td><td>1 extra heart (1/season), Colored chat name, 1 Epic crate/season, 1 extra home</td></tr>
-        <tr><td>Ultra</td><td>€4.99</td><td>All VIP perks, 2 Epic crates/season, Increased Spawner Key chance, Minor particle effects, 2 extra homes</td></tr>
-        <tr><td>Cherry</td><td>€8.99</td><td>All Ultra perks, Heart Key (1/season), Exclusive Cherry crate, Fancy particle effects, VIP Discord role</td></tr>
-        <tr><td>Cherry+</td><td>€9.99/month</td><td>All Cherry perks, 2 Heart Keys OR Second Life/season, Extra Spawner Keys, Exclusive cosmetic pets/effects, Cherry+ Discord role</td></tr>
+      <tr><th>Rank</th><th>Price</th><th>Perks</th></tr>
+      <tr><td>VIP</td><td>€1.99</td><td>1 extra heart (1/season), Colored chat name, 1 Epic crate/season, 1 extra home</td></tr>
+      <tr><td>Ultra</td><td>€4.99</td><td>All VIP perks, 2 Epic crates/season, Increased Spawner Key chance, Minor particle effects, 2 extra homes</td></tr>
+      <tr><td>Cherry</td><td>€8.99</td><td>All Ultra perks, Heart Key (1/season), Exclusive Cherry crate, Fancy particle effects, VIP Discord role</td></tr>
+      <tr><td>Cherry+</td><td>€9.99/month</td><td>All Cherry perks, 2 Heart Keys OR Second Life/season, Extra Spawner Keys, Exclusive cosmetic pets/effects, Cherry+ Discord role</td></tr>
     </table>
+  </div>
 </section>
 
 <section id="crates">
-    <h2>Crates & Pricing</h2>
+  <h2>Crates & Pricing</h2>
+  <button class="collapsible">View Crates</button>
+  <div class="content">
     <table>
-        <tr><th>Crate</th><th>Price</th><th>Notes</th></tr>
-        <tr><td>Rare Key</td><td>€0.19</td><td>Starter cosmetics</td></tr>
-        <tr><td>Epic Key</td><td>€0.39</td><td>Mid-tier rewards</td></tr>
-        <tr><td>Heart Key</td><td>€0.99</td><td>+1 heart, 1 per season</td></tr>
-        <tr><td>Cherry Key</td><td>€1.39</td><td>Seasonal cosmetic items</td></tr>
-        <tr><td>Spawner Key</td><td>€1.79</td><td>Spawners / resources / pets</td></tr>
-        <tr><td>Ad Key</td><td>€0.00</td><td>Free via quest / CPA</td></tr>
+      <tr><th>Crate</th><th>Price</th><th>Notes</th></tr>
+      <tr><td>Rare Key</td><td>€0.19</td><td>Starter cosmetics</td></tr>
+      <tr><td>Epic Key</td><td>€0.39</td><td>Mid-tier rewards</td></tr>
+      <tr><td>Heart Key</td><td>€0.99</td><td>+1 heart, 1 per season</td></tr>
+      <tr><td>Cherry Key</td><td>€1.39</td><td>Seasonal cosmetic items</td></tr>
+      <tr><td>Spawner Key</td><td>€1.79</td><td>Spawners / resources / pets</td></tr>
+      <tr><td>Ad Key</td><td>€0.00</td><td>Free via quest / CPA</td></tr>
     </table>
 
-    <h3>Bulk / Combo Pricing</h3>
-    <table>
+    <button class="collapsible">View Combos / Bulk Discounts</button>
+    <div class="content">
+      <table>
         <tr><th>Crate</th><th>Quantity</th><th>Bulk Price</th></tr>
         <tr><td>Rare Key</td><td>5</td><td>€0.85</td></tr>
         <tr><td>Rare Key</td><td>10</td><td>€1.70</td></tr>
@@ -94,38 +167,97 @@
         <tr><td>Cherry Key</td><td>5</td><td>€6.00</td></tr>
         <tr><td>Spawner Key</td><td>3</td><td>€5.00</td></tr>
         <tr><td>Spawner Key</td><td>5</td><td>€8.00</td></tr>
-    </table>
+      </table>
+    </div>
+  </div>
 </section>
 
 <section id="second-life">
-    <h2>Second Life</h2>
+  <h2>Second Life</h2>
+  <button class="collapsible">View Details</button>
+  <div class="content">
     <div class="section-box">
-        <p><strong>Price:</strong> €2.99</p>
-        <p><strong>Reward:</strong> 10 hearts, unban from spectator mode</p>
-        <p><strong>Limit:</strong> 1 per season per player</p>
-        <p><strong>Optional:</strong> Cherry+ subscribers can get 1 free Second Life per month</p>
+      <p><strong>Price:</strong> €2.99</p>
+      <p><strong>Reward:</strong> 10 hearts, unban from spectator mode</p>
+      <p><strong>Limit:</strong> 1 per season per player</p>
+      <p><strong>Optional:</strong> Cherry+ subscribers get 1 free Second Life/month</p>
     </div>
+  </div>
 </section>
 
 <section id="store">
-    <h2>Store</h2>
-    <div class="section-box">
-        <p>Purchase Ranks, Crates, and Second Life here:</p>
-        <a href="#" class="btn">Visit Store</a>
-    </div>
+  <h2>Store</h2>
+  <div class="section-box">
+    <p>Purchase Ranks, Crates, and Second Life here:</p>
+    <a href="#" class="btn">Visit Store</a>
+  </div>
 </section>
 
 <section id="discord">
-    <h2>Join Our Discord</h2>
-    <div class="section-box">
-        <p>Chat with players, get updates, and participate in events:</p>
-        <a href="#" class="btn">Join Discord</a>
-    </div>
+  <h2>Join Our Discord</h2>
+  <div class="section-box">
+    <p>Chat with players, get updates, and participate in events:</p>
+    <a href="#" class="btn">Join Discord</a>
+  </div>
 </section>
 
 <footer>
-    <p>© 2026 LiteScriptz LifeSteal SMP. All Rights Reserved.</p>
+  <p>© 2026 LiteScriptz LifeSteal SMP. All Rights Reserved.</p>
 </footer>
+
+<script>
+  // Collapsible
+  const collapsibles = document.querySelectorAll('.collapsible');
+  collapsibles.forEach(button => {
+    button.addEventListener('click', () => {
+      button.classList.toggle('active');
+      const content = button.nextElementSibling;
+      content.style.display = content.style.display === "block" ? "none" : "block";
+    });
+  });
+
+  // Scroll animations
+  const sections = document.querySelectorAll('section');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){ entry.target.classList.add('active'); }
+    });
+  }, {threshold:0.1});
+  sections.forEach(section => observer.observe(section));
+
+  // LifeSteal demo
+  let hearts = 10;
+  let maxHearts = 10;
+  const heartEl = document.getElementById('hearts');
+  const borderEl = document.getElementById('borderBar');
+  const timerEl = document.getElementById('seasonTimer');
+  let border = 100;
+  let shrinkInterval = 7*24*60*60; // 7 days in seconds
+  let currentTime = shrinkInterval;
+
+  function updateHearts(){
+    heartEl.innerHTML='';
+    for(let i=0;i<hearts;i++){ heartEl.innerHTML+='❤️'; }
+    heartEl.classList.add('grow');
+    setTimeout(()=>{heartEl.classList.remove('grow');},300);
+  }
+  function stealHeart(){ if(hearts<maxHearts){ hearts++; updateHearts(); } }
+  function loseHeart(){ if(hearts>0){ hearts--; updateHearts(); } }
+  function shrinkBorder(){ if(border>10){ border-=10; borderEl.style.width=border+'%'; } }
+
+  updateHearts();
+
+  // Timer countdown
+  function updateTimer(){
+    currentTime--;
+    if(currentTime<0) currentTime = shrinkInterval;
+    let d = Math.floor(currentTime/86400);
+    let h = Math.floor((currentTime%86400)/3600);
+    let m = Math.floor((currentTime%3600)/60);
+    timerEl.innerText = `Next Border Shrink in: ${d}d ${h}h ${m}m`;
+  }
+  setInterval(updateTimer,1000);
+</script>
 
 </body>
 </html>
