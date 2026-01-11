@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     submitAnswer.addEventListener("click", function () {
         if (userAnswer.value.trim() === correctAnswer) {
-            verificationMessage.innerHTML = `<a href="https://discord.gg/kvs4aN2P" target="_blank">Click here to join our Discord!</a>`;
+            verificationMessage.innerHTML = `<a href="https://discord.gg/4WzDVjKJ" target="_blank">Click here to join our Discord!</a>`;
         } else {
             verificationMessage.textContent = "Incorrect answer. Try again!";
         }
